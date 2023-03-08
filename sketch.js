@@ -84,6 +84,10 @@ function mousePressed() {
 
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
+	gameTitle.x = width / 2 - 500;
+	gameTitle.y = height / 2-200;
+	gameStartButton.x = width / 2 - 100;
+	gameStartButton.y = height / 2;
 }
 
 // Draw game elements

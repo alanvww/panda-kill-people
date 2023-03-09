@@ -190,14 +190,20 @@ function Player() {
 function Square() {
 	this.x = random(width / 2, width);
 	this.y = random(height);
-	this.size = random(10, 50);
+	this.size = 5;
+	this.length = 10;
 	this.ogX = this.x;
 	this.ogY = this.y;
 
 	this.draw = function () {
 		fill(0, 0, 0);
-		image(panda, this.ogX - this.size / 2, this.ogY - this.size / 2);
-		rect(this.x - this.size / 2, this.y - this.size / 2, this.size, 5);
+		image(panda, this.ogX, this.ogY - 40, 80, 80);
+		rect(
+			this.x - this.length / 2,
+			this.y - this.size / 2,
+			this.length,
+			this.size
+		);
 		this.x -= 10;
 		if (this.x < -this.size) {
 			squares.splice(squares.indexOf(this), 1);

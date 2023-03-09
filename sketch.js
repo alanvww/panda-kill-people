@@ -21,6 +21,7 @@ function setup() {
 	let density = displayDensity();
 	pixelDensity(density);
 	createCanvas(windowWidth, windowHeight);
+	frameRate(30);
 
 	textFont(fontPixel);
 
@@ -139,12 +140,13 @@ function draw() {
 	}
 
 	// Add new squares
-	if (frameCount % 15 === 0 && !gameover) {
-		squares.push(new Square());
-	}
 
 	// Increase score
 	if (!gameover && !gameStartButton.visible) {
+		let sq = new Square();
+		if (frameCount % 5 === 0 && !gameover) {
+			squares.push(sq);
+		}
 		score++;
 	}
 }
@@ -193,11 +195,10 @@ function Square() {
 	this.ogY = this.y;
 
 	this.draw = function () {
+		fill(0, 0, 0);
 		image(panda, this.ogX - this.size / 2, this.ogY - this.size / 2);
-
-		fill(255, 0, 0);
-		rect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
-		this.x -= 5;
+		rect(this.x - this.size / 2, this.y - this.size / 2, this.size, 5);
+		this.x -= 10;
 		if (this.x < -this.size) {
 			squares.splice(squares.indexOf(this), 1);
 		}

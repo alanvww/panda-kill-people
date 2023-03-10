@@ -144,7 +144,7 @@ function draw() {
 	// Increase score
 	if (!gameover && !gameStartButton.visible) {
 		let sq = new Square();
-		if (frameCount % 5 === 0 && !gameover) {
+		if (frameCount % 20 === 0 && !gameover) {
 			squares.push(sq);
 		}
 		score++;
@@ -206,7 +206,7 @@ function Square() {
 		);
 		this.x -= 10;
 		if (this.x < -this.size) {
-			squares.splice(squares.indexOf(this), 1);
+			this.x = this.ogX; //squares.splice(squares.indexOf(this), 1);
 		}
 	};
 }

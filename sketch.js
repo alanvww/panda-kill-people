@@ -25,23 +25,43 @@ function setup() {
 
 	textFont(fontPixel);
 
-	gameStartButton = {
-		x: width / 2 - 100,
-		y: height / 2,
+	if (width > height) {
+		gameStartButton = {
+			x: width / 2 - width / 10,
+			y: height / 2,
 
-		w: 200,
-		h: 80,
-		visible: true,
-	};
+			w: width / 5,
+			h: 80,
+			visible: true,
+		};
 
-	gameTitle = {
-		x: width / 2 - 500,
-		y: height / 2 - 200,
+		gameTitle = {
+			x: width / 2 - 500,
+			y: height / 2 - 200,
 
-		w: 1000,
-		h: 100,
-		visible: true,
-	};
+			w: 1000,
+			h: 100,
+			visible: true,
+		};
+	} else {
+		gameStartButton = {
+			x: width / 2 - width / 4,
+			y: height / 2,
+
+			w: width / 2,
+			h: 80,
+			visible: true,
+		};
+
+		gameTitle = {
+			x: width / 2 - 500,
+			y: height / 2 - 200,
+
+			w: 1000,
+			h: 100,
+			visible: true,
+		};
+	}
 
 	player = new Player();
 	score = 0;
@@ -56,7 +76,6 @@ function mousePressed() {
 		mouseY < gameStartButton.y + gameStartButton.h
 	) {
 		// Change background color when button is clicked
-		background(random(255), random(255), random(255));
 		score = 0;
 		gameover = false;
 		gameTitle.visible = false;
@@ -67,10 +86,43 @@ function mousePressed() {
 
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
-	gameTitle.x = width / 2 - 500;
-	gameTitle.y = height / 2 - 200;
-	gameStartButton.x = width / 2 - 100;
-	gameStartButton.y = height / 2;
+	if (width > height) {
+		gameStartButton = {
+			x: width / 2 - width / 10,
+			y: height / 2,
+
+			w: width / 5,
+			h: 80,
+			visible: gameStartButton.visible,
+		};
+
+		gameTitle = {
+			x: width / 2 - 500,
+			y: height / 2 - 200,
+
+			w: 1000,
+			h: 100,
+			visible: gameTitle.visible,
+		};
+	} else {
+		gameStartButton = {
+			x: width / 2 - width / 4,
+			y: height / 2,
+
+			w: width / 2,
+			h: 80,
+			visible: gameStartButton.visible,
+		};
+
+		gameTitle = {
+			x: width / 2 - 500,
+			y: height / 2 - 200,
+
+			w: 1000,
+			h: 100,
+			visible: gameTitle.visible,
+		};
+	}
 }
 
 // Draw game elements
@@ -79,12 +131,11 @@ function draw() {
 
 	if (gameStartButton.visible) {
 		if (gameTitle.visible) {
-			fill(255);
-			rect(gameTitle.x, gameTitle.y, gameTitle.w, gameTitle.h);
+			// Game title
 			noStroke();
 			fill(0);
 			textAlign(CENTER, CENTER);
-			textSize(65);
+			textSize(width > height ? width / 20 : width / 15);
 			text(
 				' P.  K.  P.',
 				gameTitle.x + gameTitle.w / 2,
@@ -92,6 +143,7 @@ function draw() {
 			);
 		}
 
+		// Start button
 		fill(0);
 		rect(
 			gameStartButton.x,
@@ -101,7 +153,7 @@ function draw() {
 		);
 		fill(255);
 		textAlign(CENTER, CENTER);
-		textSize(32);
+		textSize(width > height ? width / 40 : width / 20);
 		text(
 			'Start',
 			gameStartButton.x + gameStartButton.w / 2,
@@ -121,7 +173,7 @@ function draw() {
 		}
 
 		// Display score
-		textSize(32);
+		textSize(width > height ? width / 100 : width / 40);
 		fill(0);
 		textAlign(LEFT);
 		text('Score: ' + score, 10, 40);
@@ -129,12 +181,14 @@ function draw() {
 
 	// Game over screen
 	if (gameover) {
-		textSize(64);
+		// Game over text
+		textSize(width > height ? width / 20 : width / 10);
 		fill(255, 0, 0);
 		textAlign(CENTER, TOP);
-		text('GAME OVER', width / 2, height / 2 - 200);
-		textSize(32);
-		text('Final Score: ' + score, width / 2, height / 2 - 75);
+		text('GAME OVER', width / 2, height / 2 - 300);
+		// Final score text
+		textSize(width > height ? width / 60 : width / 30);
+		text('Final Score: ' + score, width / 2, height / 2 - 100);
 		gameStartButton.visible = true;
 		squares = [];
 	}

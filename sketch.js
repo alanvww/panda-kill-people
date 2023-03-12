@@ -68,19 +68,22 @@ function setup() {
 }
 
 function mousePressed() {
-	// Check if mouse is within button bounds
-	if (
-		mouseX > gameStartButton.x &&
-		mouseX < gameStartButton.x + gameStartButton.w &&
-		mouseY > gameStartButton.y &&
-		mouseY < gameStartButton.y + gameStartButton.h
-	) {
-		// Change background color when button is clicked
-		score = 0;
-		gameover = false;
-		gameTitle.visible = false;
-		// Hide button when it is clicked
-		gameStartButton.visible = false;
+	// Check if game start button is visible
+	if (gameStartButton.visible) {
+		// Check if mouse is within button bounds
+		if (
+			mouseX > gameStartButton.x &&
+			mouseX < gameStartButton.x + gameStartButton.w &&
+			mouseY > gameStartButton.y &&
+			mouseY < gameStartButton.y + gameStartButton.h
+		) {
+			// Change background color when button is clicked
+			score = 0;
+			gameover = false;
+			gameTitle.visible = false;
+			// Hide button when it is clicked
+			gameStartButton.visible = false;
+		}
 	}
 }
 

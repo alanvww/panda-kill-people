@@ -1,3 +1,5 @@
+// Todo: Add control mode selection
+
 // Define variables
 let player,
 	panda,
@@ -9,18 +11,34 @@ let gameTitle;
 let gameStartButton;
 let fontPixel;
 
+// Declare ml5 variables for handpose, video capture, and hands data
+let handpose;
+let video;
+let hands = [];
+let controlMode = 'handpose';
+
 // Preload assets
 function preload() {
 	dude = loadImage('assets/dude.png');
 	panda = loadImage('assets/panda.png');
 	fontPixel = loadFont('assets/PressStart2P-Regular.ttf');
+
+	handpose = ml5.handpose();
+}
+
+function gotHands(results) {
+	hands = results;
 }
 
 // Set up canvas and initialize game
 function setup() {
 	let density = displayDensity();
 	pixelDensity(density);
-	createCanvas(windowWidth, windowHeight);
+	createCanvas(windowWidth, windowWidth * (3 / 4));
+	video = createCapture(VIDEO);
+	video.size(windowWidth, windowWidth * (3 / 4));
+	video.hide();
+	handpose.detectStart(video, gotHands);
 	frameRate(30);
 
 	textFont(fontPixel);
@@ -130,7 +148,16 @@ function windowResized() {
 
 // Draw game elements
 function draw() {
-	background(255);
+	background(255, 255, 255);
+	push();
+	translate(width, 0);
+	scale(-1, 1);
+	fill(255);
+	image(video, 0, 0, width, height);
+	pop();
+
+	fill(255, 255, 255, 100);
+	rect(0, 0, width, height);
 
 	if (gameStartButton.visible) {
 		if (gameTitle.visible) {
@@ -216,7 +243,14 @@ function Player() {
 
 	this.update = function () {
 		this.x = width / 8;
-		this.y = mouseY;
+		if (controlMode == 'pointer') {
+			this.y = mouseY;
+		} else if (controlMode == 'handpose') {
+			let scaleY = height / 480;
+			if (hands.length > 0) {
+				this.y = hands[0].index_finger_dip.y * scaleY;
+			}
+		}
 	};
 
 	this.draw = function () {
